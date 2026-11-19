@@ -1,0 +1,29 @@
+name: AET-002 Deliberate interruption
+on:
+  push:
+    branches: [main]
+    paths:
+      - "recovery/**"
+      - ".github/workflows/aet-002-interrupt.yml"
+      - ".github/workflows/aet-002-resume.yml"
+permissions:
+  contents: read
+jobs:
+  interrupt:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Save checkpoint
+        run: python recovery/checkpoint.py create --sha "$GITHUB_SHA" --output checkpoint.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: aet-002-checkpoint
+          path: checkpoint.json
+          if-no-files-found: error
+          retention-days: 7
+      - name: Deliberately interrupt
+        run: exit 78
