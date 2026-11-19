@@ -1,0 +1,27 @@
+[
+  {
+    "id": "T-001",
+    "title": "Inspect repository",
+    "status": "completed"
+  },
+  {
+    "id": "T-002",
+    "title": "Implement task audit",
+    "status": "completed"
+  },
+  {
+    "id": "T-003",
+    "title": "Add tests",
+    "status": "completed"
+  },
+  {
+    "id": "T-004",
+    "title": "Configure CI",
+    "status": "pending"
+  },
+  {
+    "id": "T-005",
+    "title": "Verify merged project",
+    "status": "pending"
+  }
+]

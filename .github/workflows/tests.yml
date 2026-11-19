@@ -1,0 +1,25 @@
+name: Task audit CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run unit tests
+        run: python -m unittest discover -s tests -v
+      - name: Verify deterministic sample output
+        run: |
+          python task_audit.py sample_tasks.json > report.json
+          python -c "import json; assert json.load(open('report.json', encoding='utf-8')) == {'total': 5, 'completed': 3, 'pending': 2}"
